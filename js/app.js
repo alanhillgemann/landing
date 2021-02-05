@@ -18,7 +18,7 @@
  * Define Global Variables
  *
 */
-var didScroll;
+let didScroll;
 
 /**
  * End Global Variables
@@ -68,9 +68,12 @@ const buildNav = () => {
 // Add class 'active' to section and its navigation link when near top of viewport
 const setActiveSection = () => {
     const observer = new IntersectionObserver((entries) => {
+        //
+        console.log(entries)
+        //
         const sectionIds = getChildIds('main > section');
         for (let i = 0; i < entries.length; i++) {
-            if (entries[i]['isIntersecting']) {
+            if (entries[i]['isIntersecting'] && !entries[i]['isVisible']) {
                 const sectionId = entries[i].target.id;
                 entries[i].target.classList.add('active');
                 document.getElementById('nav-' + sectionId).classList.add('active');
@@ -82,7 +85,7 @@ const setActiveSection = () => {
                 }
             }
         }
-    },{threshold: 0.65});
+    },{threshold: [0.35]});
     const sectionIds = getChildIds('main > section');
     for (let i = 0; i < sectionIds.length; i++) {
         observer.observe(document.querySelector('#' + sectionIds[i]));
